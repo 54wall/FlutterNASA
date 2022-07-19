@@ -1,8 +1,16 @@
 buildscript {
     ext.kotlin_version = '1.6.10'
     repositories {
-        google()
-        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven {
+            allowInsecureProtocol true
+            url 'https://download.flutter.io'
+        }
+
+        //google()
+        //mavenCentral()
     }
 
     dependencies {
@@ -13,8 +21,17 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        mavenCentral()
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+
+        maven {
+            allowInsecureProtocol true
+            url 'https://download.flutter.io'
+        }
+
+        //google()
+        //mavenCentral()
     }
 }
 
