@@ -74,7 +74,7 @@ class ApodImageListItem extends StatelessWidget {
         _showMyDialog(context, title,url);
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
         child: AspectRatio(
           aspectRatio: 16 / 9,
           child: ClipRRect(
@@ -178,17 +178,17 @@ class ApodImageListItem extends StatelessWidget {
             title,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 15,
               fontWeight: FontWeight.bold,
             ),
           ),
           Container(
-            padding: const EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 5),
             child: Text(
               date,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 10,
               ),
             ),
           ),
