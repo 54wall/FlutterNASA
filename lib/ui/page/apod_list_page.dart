@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_nasa/data/bean/apod_image.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_downloader/image_downloader.dart';
 
 import '../../data/network/nasa_request_manager.dart';
 
@@ -64,21 +65,71 @@ class ApodImageListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: AspectRatio(
-        aspectRatio: 16 / 9,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Stack(
-            children: [
-              _buildParallaxBackground(context),
-              _buildGradient(),
-              _buildTitleAndSubtitle(),
-            ],
+    return GestureDetector(
+      onTap: () {
+        developer.log('onTap', name: 'GestureDetector onTap');
+      },
+      onLongPress: () {
+        developer.log('onLongPress', name: 'GestureDetector onLongPress');
+        _showMyDialog(context, title,url);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Stack(
+              children: [
+                _buildParallaxBackground(context),
+                _buildGradient(),
+                _buildTitleAndSubtitle(),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  /// https://api.flutter-io.cn/flutter/material/AlertDialog-class.html
+  Future<void> _showMyDialog(BuildContext context, String title,String url) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('提示'),
+          content: SingleChildScrollView(
+            child: ListBody(
+            /*children: const <Widget>[
+                  Text('是否下载$title'),
+            ],加const报错
+            */
+              children: <Widget>[
+                Text('是否下载$title'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'Cancel'),
+              child: const Text('取消'),
+            ),
+            TextButton(
+              /*
+               * 多行不使用 => 使用 {}
+               */
+              onPressed : () async  {
+                developer.log(url, name: 'download image url');
+                await ImageDownloader.downloadImage(url);
+                // Navigator.pop(context, 'OK');
+        },
+              child: const Text('确认'),
+            ),
+          ],
+        );
+      },
     );
   }
 
