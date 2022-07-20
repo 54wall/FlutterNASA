@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_nasa/data/bean/apod_image.dart';
@@ -89,10 +90,11 @@ class ApodImageListItem extends StatelessWidget {
         backgroundImageKey: _backgroundImageKey,
       ),
       children: [
-        Image.network(
-          url,
+        CachedNetworkImage(
+          imageUrl: url,
           key: _backgroundImageKey,
           fit: BoxFit.cover,
+          placeholder: (context, url) => const CircularProgressIndicator(),
         ),
       ],
     );
@@ -116,7 +118,7 @@ class ApodImageListItem extends StatelessWidget {
   Widget _buildTitleAndSubtitle() {
     return Positioned(
       left: 20,
-      bottom: 20,
+      bottom: 25,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,11 +131,14 @@ class ApodImageListItem extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          Text(
-            date,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
+          Container(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              date,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
             ),
           ),
         ],
@@ -327,4 +332,3 @@ class Location {
   final String place;
   final String imageUrl;
 }
-
