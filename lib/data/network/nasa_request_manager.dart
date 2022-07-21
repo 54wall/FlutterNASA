@@ -31,6 +31,9 @@ class NasaRequestManager {
 
   static List<ApodImage> parseApodImage(String responseBody) {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<ApodImage>((json) => ApodImage.fromJson(json)).toList();
+    List<ApodImage> resultList =
+        parsed.map<ApodImage>((json) => ApodImage.fromJson(json)).toList();
+    resultList.sort((a, b) => (b.date.compareTo(a.date)));
+    return resultList;
   }
 }
