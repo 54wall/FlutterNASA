@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_nasa/data/bean/apod_image.dart';
+import 'package:flutter_nasa/ui/page/apod_detail_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_downloader/image_downloader.dart';
 
@@ -29,9 +30,7 @@ class ApodListPage extends StatelessWidget {
                     //注意：for循环下，这里不能加大括号{},表示的是一个Set,而children:[]内部需要的是一个一个的item
                     for (final apod in snapshot.data!)
                       ApodImageListItem(
-                        url: apod.url,
-                        title: apod.title,
-                        date: apod.date,
+                        apodImage: apod,
                       )
                   ],
                 ),
@@ -53,14 +52,10 @@ class ApodListPage extends StatelessWidget {
 class ApodImageListItem extends StatelessWidget {
   ApodImageListItem({
     super.key,
-    required this.url,
-    required this.title,
-    required this.date,
+    required this.apodImage,
   });
 
-  final String url;
-  final String title;
-  final String date;
+  final ApodImage apodImage;
   final GlobalKey _backgroundImageKey = GlobalKey();
 
   @override
@@ -68,10 +63,14 @@ class ApodImageListItem extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         developer.log('onTap', name: 'GestureDetector onTap');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ApodDetailPage(apodImage: apodImage)));
       },
       onLongPress: () {
         developer.log('onLongPress', name: 'GestureDetector onLongPress');
-        _showMyDialog(context, title,url);
+        _showMyDialog(context, apodImage.title, apodImage.url);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
@@ -93,7 +92,8 @@ class ApodImageListItem extends StatelessWidget {
   }
 
   /// https://api.flutter-io.cn/flutter/material/AlertDialog-class.html
-  Future<void> _showMyDialog(BuildContext context, String title,String url) async {
+  Future<void> _showMyDialog(
+      BuildContext context, String title, String url) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -102,7 +102,7 @@ class ApodImageListItem extends StatelessWidget {
           title: const Text('提示'),
           content: SingleChildScrollView(
             child: ListBody(
-            /*children: const <Widget>[
+              /*children: const <Widget>[
                   Text('是否下载$title'),
             ],加const报错
             */
@@ -120,11 +120,11 @@ class ApodImageListItem extends StatelessWidget {
               /*
                * 多行不使用 => 使用 {}
                */
-              onPressed : () async  {
+              onPressed: () async {
                 developer.log(url, name: 'download image url');
                 await ImageDownloader.downloadImage(url);
                 // Navigator.pop(context, 'OK');
-        },
+              },
               child: const Text('确认'),
             ),
           ],
@@ -142,7 +142,7 @@ class ApodImageListItem extends StatelessWidget {
       ),
       children: [
         CachedNetworkImage(
-          imageUrl: url,
+          imageUrl: apodImage.url,
           key: _backgroundImageKey,
           fit: BoxFit.cover,
           placeholder: (context, url) => const CircularProgressIndicator(),
@@ -175,7 +175,7 @@ class ApodImageListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            title,
+            apodImage.title,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 15,
@@ -185,7 +185,7 @@ class ApodImageListItem extends StatelessWidget {
           Container(
             padding: const EdgeInsets.only(top: 5),
             child: Text(
-              date,
+              apodImage.date,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 10,
@@ -370,16 +370,4 @@ class RenderParallax extends RenderBox
             offset +
             Offset(0.0, childRect.top));
   }
-}
-
-class Location {
-  const Location({
-    required this.name,
-    required this.place,
-    required this.imageUrl,
-  });
-
-  final String name;
-  final String place;
-  final String imageUrl;
 }
