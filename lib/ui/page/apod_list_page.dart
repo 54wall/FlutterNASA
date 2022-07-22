@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_nasa/data/bean/apod_image.dart';
 import 'package:flutter_nasa/ui/page/apod_detail_page.dart';
+import 'package:flutter_nasa/ui/widget/favorite_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_downloader/image_downloader.dart';
 
@@ -83,6 +84,7 @@ class ApodImageListItem extends StatelessWidget {
                 _buildParallaxBackground(context),
                 _buildGradient(),
                 _buildTitleAndSubtitle(),
+                _buildFavoriteWidget(apodImage),
               ],
             ),
           ),
@@ -164,6 +166,15 @@ class ApodImageListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildFavoriteWidget(ApodImage apodImage) {
+    return Positioned(
+        right: 20,
+        top: 25,
+        child: FavoriteWidget(
+          apodImage: apodImage,
+        ));
   }
 
   Widget _buildTitleAndSubtitle() {

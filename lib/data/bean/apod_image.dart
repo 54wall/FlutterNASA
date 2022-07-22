@@ -16,19 +16,21 @@ class ApodImage {
   final String? thumbs;
   @JsonKey(name: 'hdurl')
   final String? hdUrl;
+
   //注意copyright hdUrl thumbs由api返回的信息可能是null的，必须处理，否则在NasaRequestManager中请求返回的data直接为null
   final String? copyright;
 
-  const ApodImage(
-      this.date,
-      this.title,
-      this.explanation,
-      this.url,
-      this.mediaType,
-      this.serviceVersion,
-      this.thumbs,
-      this.hdUrl,
-      this.copyright);
+  const ApodImage({
+    required this.date,
+    required this.title,
+    required this.explanation,
+    required this.url,
+    required this.mediaType,
+    required this.serviceVersion,
+    this.thumbs,
+    this.hdUrl,
+    this.copyright,
+  });
 
   factory ApodImage.fromJson(Map<String, dynamic> json) =>
       _$ApodImageFromJson(json);

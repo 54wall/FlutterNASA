@@ -40,6 +40,12 @@ dependencies:
   intl: ^0.17.0
   cached_network_image: ^3.2.1
   image_downloader: ^0.31.0
+  sqflite: ^2.0.3
+  #^1.8.2报错，需要写^1.8.1
+  #Because every version of flutter_test from sdk depends on path 1.8.1 and study_base_flutter depends on path ^1.8.2, flutter_test from sdk is forbidden.
+  #So, because study_base_flutter depends on flutter_test from sdk, version solving failed.
+  #pub get failed (1; So, because study_base_flutter depends on flutter_test from sdk, version solving failed.)
+  path: ^1.8.1
 
 dev_dependencies:
   flutter_test:

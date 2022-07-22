@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nasa/data/database/database_manager.dart';
 import 'package:flutter_nasa/res/app_colors.dart';
 import 'package:flutter_nasa/ui/page/apod_fav_page.dart';
 import 'package:flutter_nasa/ui/page/apod_list_page.dart';
@@ -7,13 +8,14 @@ import 'package:flutter_nasa/ui/page/app_info_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  DatabaseManager.getInstance()?.init();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  static const String _title = 'BottomNavigationBar';
+  static const String _title = 'NASA';
 
   @override
   Widget build(BuildContext context) {
