@@ -30,9 +30,9 @@ class DatabaseManager {
         'CREATE TABLE ${Constant.DB_TABLE_APOD}(id INTEGER PRIMARY KEY,'
         ' date TEXT, title TEXT,'
         'explanation TEXT, url TEXT,'
-        'mediaType TEXT, serviceVersion TEXT,'
-        'thumbs TEXT, hdUrl TEXT,'
-        'copyright TEXT, '
+        'media_type TEXT, service_version TEXT,'
+        'thumbs TEXT, hdurl TEXT,'
+        'copyright TEXT '
         ')',
       );
     }, version: 1);
@@ -56,10 +56,10 @@ class DatabaseManager {
             title: maps[index]['title'],
             explanation: maps[index]['explanation'],
             url: maps[index]['title'],
-            mediaType: maps[index]['title'],
-            serviceVersion: maps[index]['title'],
-            thumbs: maps[index]['title'],
-            hdUrl: maps[index]['title'],
-            copyright: maps[index]['title']));
+            mediaType: maps[index]['media_type'],
+            serviceVersion: maps[index]['service_version'],
+            thumbs: maps[index]['thumbs'],
+            hdUrl: maps[index]['hdurl'],
+            copyright: maps[index]['copyright']));
   }
 }
